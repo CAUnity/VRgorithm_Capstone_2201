@@ -1,15 +1,15 @@
 module.exports = (sequelize, DataTypes) => {
     const teacher = sequelize.define('teacher', {
-        id: { // 과제번호
+        id: {
             type: DataTypes.STRING,
             primaryKey: true,
             allowNull: false
         },
-        name: { // 과제명
+        name: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        pwd: { // 연구기간
+        password: {
             type: DataTypes.STRING,
             allowNull: false
         },

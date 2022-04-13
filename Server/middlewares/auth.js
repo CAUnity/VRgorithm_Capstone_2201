@@ -1,4 +1,4 @@
-const jwt = require('../modules/jwt');
+const jwt = require('../utils/jwt');
 const MSG = require('../modules/responseMessage');
 const CODE = require('../modules/statusCode');
 const util = require('../modules/util');

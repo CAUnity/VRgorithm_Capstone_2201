@@ -2,43 +2,48 @@ const { statusCode, responseMessage } = require('../globals');
 const { resFormatter } = require('../utils');
 const logger = require('../utils/logger');
 const errors = require('../utils/errors/commonError');
+const { validationResult } = require('express-validator')
+const crypto = require('crypto');
+const teacherService = require("../services/teacherService")
+const jwt = require('../utils/jwt');
+const { setFlagsFromString } = require('v8');
 
-// 상세 페이지 API
 module.exports.postRegister = async(req, res, next) => {
     try {
-        const { trialId } = req.params;
+        const { id, password } = req.body;
 
-        if (trialId === undefined) throw new ValidationError();
-
-        const trial = await trialService.readTrial(trialId);
-
-        if (!trial) throw new EntityNotExistError();
+        salt = crypto.randomBytes(128).toString('base64');
+        hashPwd = crypto.createHash('sha512').update(password + salt).digest('hex');
+        const result = await teacherService.createTeacher({
+            id,
+            password: hashPwd,
+            salt
+        });
 
         return res
             .status(statusCode.OK)
-            .send(resFormatter.success(responseMessage.READ_SUCCESS, trial));
+            .send(resFormatter.success(responseMessage.READ_SUCCESS, result));
     } catch (err) {
         next(err);
     }
 };
 
-// 리스트 페이지 API
-module.exports.getToken = async(req, res, next) => {
+module.exports.postToken = async(req, res, next) => {
     try {
-        const { page = 1, limit = 10 } = req.query;
+        const { id, password } = req.body;
 
-        if (page <= 0)
-            throw new ValidationError();
 
-        const beforeOneWeek = day.beforeOneWeek();
+        const record = await teacherService.findById({ id })
+        if (!record)
+            throw new errors.EntityNotExistError()
 
-        const data = {
-            page: Number(page) - 1,
-            limit: Number(limit),
-            beforeOneWeek
-        };
-        const trials = await trialService.readTrialList(data);
+        hashPwd = crypto.createHash('sha512').update(password + record.salt).digest('hex');
+        if (record.password != hashPwd)
+            throw new errors.UnAuthorizedError()
 
+        const token = await jwt.sign({ teacherId: id })
+
+        res.cookie('teacher', token, { httpOnly: false, maxAge: 1 * 60 * 60 * 1000 })
         return res
             .status(statusCode.OK)
             .send(resFormatter.success(responseMessage.LIST_SUCCESS, trials));

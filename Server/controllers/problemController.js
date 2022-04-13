@@ -2,21 +2,16 @@ const { statusCode, responseMessage } = require('../globals');
 const { resFormatter } = require('../utils');
 const logger = require('../utils/logger');
 const errors = require('../utils/errors/commonError');
+const problemService = require('../services/problemService')
 
 // 상세 페이지 API
 module.exports.getProblems = async(req, res, next) => {
     try {
-        const { trialId } = req.params;
-
-        if (trialId === undefined) throw new ValidationError();
-
-        const trial = await trialService.readTrial(trialId);
-
-        if (!trial) throw new EntityNotExistError();
+        const records = await problemService.readProblems();
 
         return res
             .status(statusCode.OK)
-            .send(resFormatter.success(responseMessage.READ_SUCCESS, trial));
+            .send(resFormatter.success(responseMessage.READ_SUCCESS, records));
     } catch (err) {
         next(err);
     }
@@ -26,23 +21,20 @@ module.exports.getProblems = async(req, res, next) => {
 // 리스트 페이지 API
 module.exports.postProblem = async(req, res, next) => {
     try {
-        const { page = 1, limit = 10 } = req.query;
+        const { name, input, output, description, teacherId } = req.body;
 
-        if (page <= 0)
-            throw new ValidationError();
-
-        const beforeOneWeek = day.beforeOneWeek();
-
-        const data = {
-            page: Number(page) - 1,
-            limit: Number(limit),
-            beforeOneWeek
-        };
-        const trials = await trialService.readTrialList(data);
+        const dao = {
+            name,
+            input,
+            output,
+            description,
+            teacherId
+        }
+        const result = await problemService.createProblem(dao);
 
         return res
             .status(statusCode.OK)
-            .send(resFormatter.success(responseMessage.LIST_SUCCESS, trials));
+            .send(resFormatter.success(responseMessage.LIST_SUCCESS, result));
     } catch (err) {
         next(err);
     }
@@ -51,23 +43,15 @@ module.exports.postProblem = async(req, res, next) => {
 // 리스트 페이지 API
 module.exports.getProblemDetail = async(req, res, next) => {
     try {
-        const { page = 1, limit = 10 } = req.query;
+        const { id } = req.query;
 
-        if (page <= 0)
-            throw new ValidationError();
-
-        const beforeOneWeek = day.beforeOneWeek();
-
-        const data = {
-            page: Number(page) - 1,
-            limit: Number(limit),
-            beforeOneWeek
-        };
-        const trials = await trialService.readTrialList(data);
-
+        const record = await problemService.readProblemDetail(id);
+        if (!record) {
+            throw new errors.EntityNotExistError()
+        }
         return res
             .status(statusCode.OK)
-            .send(resFormatter.success(responseMessage.LIST_SUCCESS, trials));
+            .send(resFormatter.success(responseMessage.LIST_SUCCESS, record));
     } catch (err) {
         next(err);
     }
