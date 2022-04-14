@@ -16,7 +16,7 @@ module.exports.postRegister = async(req, res, next) => {
         hashPwd = crypto.createHash('sha512').update(password + salt).digest('hex');
         const result = await teacherService.createTeacher({
             id,
-            name,
+            name: name,
             password: hashPwd,
             salt
         });
