@@ -11,7 +11,7 @@ exports.readResults = async() => {
 };
 
 //studentId, isCorrect, problemId
-exports.createResult = async() => {
+exports.createResult = async(data) => {
     try {
         return await models.result.create(data);;
     } catch (err) {

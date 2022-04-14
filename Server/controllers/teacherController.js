@@ -10,12 +10,13 @@ const { setFlagsFromString } = require('v8');
 
 module.exports.postRegister = async(req, res, next) => {
     try {
-        const { id, password } = req.body;
+        const { id, name, password } = req.body;
 
         salt = crypto.randomBytes(128).toString('base64');
         hashPwd = crypto.createHash('sha512').update(password + salt).digest('hex');
         const result = await teacherService.createTeacher({
             id,
+            name,
             password: hashPwd,
             salt
         });
@@ -36,7 +37,6 @@ module.exports.postToken = async(req, res, next) => {
         const record = await teacherService.findById({ id })
         if (!record)
             throw new errors.EntityNotExistError()
-
         hashPwd = crypto.createHash('sha512').update(password + record.salt).digest('hex');
         if (record.password != hashPwd)
             throw new errors.UnAuthorizedError()
@@ -46,7 +46,7 @@ module.exports.postToken = async(req, res, next) => {
         res.cookie('teacher', token, { httpOnly: false, maxAge: 1 * 60 * 60 * 1000 })
         return res
             .status(statusCode.OK)
-            .send(resFormatter.success(responseMessage.LIST_SUCCESS, trials));
+            .send(resFormatter.success(responseMessage.LIST_SUCCESS, ));
     } catch (err) {
         next(err);
     }

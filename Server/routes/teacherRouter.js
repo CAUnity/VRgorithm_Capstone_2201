@@ -9,10 +9,13 @@ const { validErrorChecker } = require('../middlewares/validator.js');
 const teacherInfoValid = [
     body("id").notEmpty(),
     body("password").notEmpty()
-]
-teacherRouter.post(routes.ROOT, teacherInfoValid, validErrorChecker, teacherController.postRegister);
+];
+const teacherRegiValid = teacherInfoValid.concat([
+    body("name").notEmpty()
+]);
+teacherRouter.post(routes.ROOT, teacherRegiValid, validErrorChecker, teacherController.postRegister);
 
-teacherRouter.post(routes.TOKEN, teacherInfoValid, validErrorChecker, teacherController.postToken);
+teacherRouter.get(routes.TOKEN, teacherInfoValid, validErrorChecker, teacherController.postToken);
 
 
 

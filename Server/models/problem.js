@@ -2,9 +2,8 @@ module.exports = (sequelize, DataTypes) => {
     const problem = sequelize.define('problem', {
         id: { // 과제번호
             type: DataTypes.INTEGER,
-            autoincrement: true,
-            primaryKey: true,
-            allowNull: false
+            autoIncrement: true,
+            primaryKey: true
         },
         name: { // 과제명
             type: DataTypes.STRING,

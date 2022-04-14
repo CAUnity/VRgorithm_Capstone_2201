@@ -6,17 +6,17 @@ const { Op } = require('sequelize');
 exports.findById = async data => {
     try {
         return await models.teacher.findOne({
-            where: data,
-            attributes: id
+            where: data
         });
     } catch (err) {
         throw err;
     }
 };
 
-//id, password, salt
+//id, password, salt, name
 exports.createTeacher = async data => {
     try {
+        logger.log(data)
         return await models.teacher.create(data);;
     } catch (err) {
         throw err;

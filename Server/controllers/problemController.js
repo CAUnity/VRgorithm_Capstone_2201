@@ -45,7 +45,7 @@ module.exports.getProblemDetail = async(req, res, next) => {
     try {
         const { id } = req.query;
 
-        const record = await problemService.readProblemDetail(id);
+        const record = await problemService.readProblemDetail({ id });
         if (!record) {
             throw new errors.EntityNotExistError()
         }

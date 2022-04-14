@@ -13,6 +13,7 @@ exports.readProblems = async() => {
 //id
 exports.readProblemDetail = async data => {
     try {
+        logger.log("hihi " + data)
         return await models.problem.findOne(data);;
     } catch (err) {
         throw err;
