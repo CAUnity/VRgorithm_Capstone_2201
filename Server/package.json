@@ -7,7 +7,7 @@
     "scripts": {
         "start": "set DEBUG=src*& set NODE_ENV=production& nodemon ./bin/www",
         "debug": "set DEBUG=src*& set NODE_ENV=development& nodemon ./bin/www",
-        "pm2": "set DEBUG=src*& set NODE_ENV=development& pm2 start --name cap ./bin/www",
+        "pm2": "set DEBUG=src*& set NODE_ENV=development& pm2 start --name cap ./bin/www.js",
         "before": "npm install pm2 -g",
         "test": "set NODE_ENV=test& jest --runInBand",
         "coverage": "jest --coverage"

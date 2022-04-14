@@ -43,7 +43,7 @@ module.exports.postProblem = async(req, res, next) => {
 // 리스트 페이지 API
 module.exports.getProblemDetail = async(req, res, next) => {
     try {
-        const { id } = req.query;
+        const { id } = req.params;
 
         const record = await problemService.readProblemDetail({ id });
         if (!record) {

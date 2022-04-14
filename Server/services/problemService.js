@@ -13,7 +13,9 @@ exports.readProblems = async() => {
 //id
 exports.readProblemDetail = async data => {
     try {
-        return await models.problem.findOne(data);;
+        return await models.problem.findOne({
+            where: data
+        });;
     } catch (err) {
         throw err;
     }
