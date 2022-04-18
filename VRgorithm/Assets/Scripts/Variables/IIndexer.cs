@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 public interface IIndexer {
-    int this[int index] {
+    IntVariable this[int index] {
         get;
         set;
     }

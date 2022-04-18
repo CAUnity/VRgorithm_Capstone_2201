@@ -12,17 +12,11 @@ public class IfBlock : MonoBehaviour, IBlock {
         
     }
 
-    void Update() {
-        
-    }
-
     public bool instruction() {
-        if (cond.instruction())
-        {
+        if (cond.instruction()) {
             next = trueBlock;
         }
-        else
-        {
+        else {
             next = falseBlock;
         }
         return true;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ArithBlock : MonoBehaviour, IBlock {
-
     public IBlock next { get; set; }
     public IBlock prev { get; set; }
 
@@ -16,24 +15,27 @@ public class ArithBlock : MonoBehaviour, IBlock {
     public IVariable ret;
     public IntVariable ret_idx;
     
-    void Start() {
-        
-    }
+    public bool instruction() {
+        if(lhs is IntVariable) {
+            arith.lhs = ((IntVariable)lhs).Value;
+        }
+        else {
+            arith.lhs = ((ArrayVariable)lhs).Value[lhs_idx.Value].Value;
+        }
 
-  
-    void Update() {
-        
-    }
+        if (rhs is IntVariable) {
+            arith.rhs = ((IntVariable)rhs).Value;
+        }
+        else {
+            arith.rhs = ((ArrayVariable)rhs).Value[rhs_idx.Value].Value;
+        }
 
-    public bool instruction()
-    {
-        arith.lhs = lhs;
-        arith.rhs = rhs;
-        arith.lhs_idx = lhs_idx;
-        arith.rhs_idx = rhs_idx;
-
-        // ret type에 따라서 조정 필요
-        ret.Value.set(arith.instruction());
+        if (ret is IntVariable) {
+            ((IntVariable)ret).Value = arith.instruction();
+        }
+        else {
+            ((ArrayVariable)ret).Value[ret_idx.Value].Value = arith.instruction();
+        }
         return true;
     }
 }

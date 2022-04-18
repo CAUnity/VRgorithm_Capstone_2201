@@ -14,11 +14,6 @@ public class WhileBlock : MonoBehaviour, IBlock {
 
     }
 
-    void Update()
-    {
-
-    }
-
     public bool instruction()
     {
         if (cond.instruction())

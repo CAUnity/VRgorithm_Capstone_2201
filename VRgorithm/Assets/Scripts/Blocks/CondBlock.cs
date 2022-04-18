@@ -12,21 +12,21 @@ public class CondBlock : MonoBehaviour, IBlock {
     public IntVariable lhs_idx;
     public IntVariable rhs_idx;
 
-    void Start() {
-        
-    }
-
-
-    void Update() {
-        
-    }
-
     public bool instruction()
     {
-        comp.lhs = lhs;
-        comp.rhs = rhs;
-        comp.lhs_idx = lhs_idx;
-        comp.rhs_idx = rhs_idx;
+        if (lhs is IntVariable) {
+            comp.lhs = ((IntVariable)lhs).Value;
+        }
+        else {
+            comp.lhs = ((ArrayVariable)lhs).Value[lhs_idx.Value].Value;
+        }
+
+        if (rhs is IntVariable) {
+            comp.rhs = ((IntVariable)rhs).Value;
+        }
+        else {
+            comp.rhs = ((ArrayVariable)rhs).Value[rhs_idx.Value].Value;
+        }
 
         return comp.instruction();
     }
