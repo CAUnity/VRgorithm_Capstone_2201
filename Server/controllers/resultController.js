@@ -35,3 +35,12 @@ module.exports.postResult = async(req, res, next) => {
         next(err);
     }
 };
+
+// 상세 페이지 API
+module.exports.viewResults = async(req, res, next) => {
+    try {
+        res.render("listResult.html");
+    } catch (err) {
+        next(err);
+    }
+};

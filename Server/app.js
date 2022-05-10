@@ -4,8 +4,10 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
+const expressSession = require('express-session');
 const { logger, resFormatter } = require('./utils');
 const { statusCode, routes, responseMessage } = require('./globals');
+const configs = require('./configs');
 const models = require("./models");
 
 const routers = require('./routes');
@@ -31,6 +33,11 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(expressSession({
+    secret: configs.session.secret,
+    resave: true,
+    saveUninitialized: true,
+}))
 
 
 //라우터 설정
@@ -47,12 +54,17 @@ app.use(function(req, res, next) {
 
 app.use(function(err, req, res, next) {
     let errCode = err.status || statusCode.INTERNAL_SERVER_ERROR;
-    let message = errCode == statusCode.INTERNAL_SERVER_ERROR ? responseMessage.INTERNAL_SERVER_ERROR : err.message;
 
-    if (req.app.get('env') == "development") logger.err(err);
+    if (req.app.get('env') == "development") {
+        logger.err(err);
 
-    return res.status(errCode)
-        .send(resFormatter.fail(message));
+        return res.status(errCode)
+            .send(resFormatter.fail(err.message));
+
+    }
+
+    return res.status(statusCode.INTERNAL_SERVER_ERROR)
+        .send(resFormatter.fail(responseMessage.INTERNAL_SERVER_ERROR));
 });
 
 module.exports = app;

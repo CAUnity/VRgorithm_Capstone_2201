@@ -56,3 +56,20 @@ module.exports.getProblemDetail = async(req, res, next) => {
         next(err);
     }
 };
+
+// 리스트 페이지 API
+module.exports.makeProblem = async(req, res, next) => {
+    try {
+        res.render("makeProb.html");
+    } catch (err) {
+        next(err);
+    }
+};
+
+module.exports.viewProblems = async(req, res, next) => {
+    try {
+        res.render("listProb.html");
+    } catch (err) {
+        next(err);
+    }
+};

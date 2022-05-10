@@ -17,6 +17,7 @@ teacherRouter.post(routes.ROOT, teacherRegiValid, validErrorChecker, teacherCont
 
 teacherRouter.get(routes.TOKEN, teacherInfoValid, validErrorChecker, teacherController.postToken);
 
+teacherRouter.get(routes.TOKEN, teacherInfoValid, validErrorChecker, teacherController.postToken);
 
 
 module.exports = teacherRouter;

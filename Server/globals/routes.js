@@ -8,7 +8,11 @@ const routes = {
     PROBLEM: "/problems",
     RESULT: "/results",
     ID: "/:id",
-    TOKEN: "/token"
+    TOKEN: "/token",
+    VIEW: "/view",
+    MAKE: "/make",
+    LOGIN: "/login",
+    LOGOUT: "/logout",
 }
 
 module.exports = routes;
