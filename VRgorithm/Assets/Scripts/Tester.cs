@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 public class Tester : MonoBehaviour {
     ArrayVariable inputArray;
     IntVariable outputVariable;
@@ -7,8 +7,8 @@ public class Tester : MonoBehaviour {
     ArithBlock arithBlock_1;
     ArithBlock arithBlock_2;
     WhileBlock whileBlock;
-    CondBlock condBlock;
     EndBlock endBlock;
+    List<IVariable> var_list;
 
     public void Awake() {
         inputArray = GameObject.Find("inputArray").GetComponent<ArrayVariable>();
@@ -26,7 +26,6 @@ public class Tester : MonoBehaviour {
         arithBlock_1 = GameObject.Find("arithBlock_1").GetComponent<ArithBlock>();
         arithBlock_2 = GameObject.Find("arithBlock_2").GetComponent<ArithBlock>();
         whileBlock = GameObject.Find("whileBlock").GetComponent<WhileBlock>();
-        condBlock = GameObject.Find("condBlock").GetComponent<CondBlock>();
         endBlock = GameObject.Find("endBlock").GetComponent<EndBlock>();
         outputVariable = GameObject.Find("outputVariable").GetComponent<IntVariable>();
 
@@ -34,7 +33,7 @@ public class Tester : MonoBehaviour {
         arithBlock_1.next = whileBlock;
         whileBlock.trueBlock = arithBlock_2;
         whileBlock.falseBlock = endBlock;
-        whileBlock.cond = condBlock;
+        whileBlock.comp = new LessOperator();
         arithBlock_2.next = whileBlock; ;
 
         arithBlock_1.arith = new AddOperator();
@@ -51,11 +50,10 @@ public class Tester : MonoBehaviour {
         arithBlock_1.ret = outputVariable;
 
 
-        condBlock.lhs = outputVariable;
-        condBlock.rhs = inputArray;
-        condBlock.rhs_idx = new IntVariable();
-        condBlock.rhs_idx.Value = 3;
-        condBlock.comp = new LessOperator();
+        whileBlock.lhs = outputVariable;
+        whileBlock.rhs = inputArray;
+        whileBlock.rhs_idx = new IntVariable();
+        whileBlock.rhs_idx.Value = 3;
 
 
         arithBlock_2.lhs = inputArray;

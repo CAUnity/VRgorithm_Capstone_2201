@@ -7,6 +7,8 @@ public class DebugManager : MonoBehaviour {
 
     public IBlock process;
     public IntVariable outputVariable;
+
+    
     /*
     private void Awake() {
         if (instance == null) {
