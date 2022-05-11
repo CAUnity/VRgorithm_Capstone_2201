@@ -35,7 +35,7 @@ module.exports.postProblem = async(req, res, next) => {
 
         return res
             .status(statusCode.OK)
-            .send(resFormatter.success(responseMessage.LIST_SUCCESS, result));
+            .send(resFormatter.success(responseMessage.LIST_SUCCESS, result.id));
     } catch (err) {
         next(err);
     }

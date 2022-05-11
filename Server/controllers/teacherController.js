@@ -56,7 +56,7 @@ module.exports.postToken = async(req, res, next) => {
 module.exports.postLogin = async(req, res, next) => {
     try {
         if (req.session.user) {
-            next();
+            return req.render("main.html")
         } else {
             const { id, password } = req.body;
 

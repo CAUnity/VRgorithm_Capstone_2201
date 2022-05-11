@@ -25,12 +25,21 @@
             }
             console.log(bodyData)
             fetch("/problems", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(bodyData)
-            })
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(bodyData)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert("문제생성 성공!!\n ID: " + data.data);
+                    } else {
+                        alert("문제생성 실패!!\n" + data.message)
+                    }
+                }).catch(err => alert("문제생성 실패!!\n" + err))
         }
     </script>
 </body>
