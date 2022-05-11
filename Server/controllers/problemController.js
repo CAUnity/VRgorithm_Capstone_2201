@@ -21,7 +21,8 @@ module.exports.getProblems = async(req, res, next) => {
 // 리스트 페이지 API
 module.exports.postProblem = async(req, res, next) => {
     try {
-        const { name, input, output, description, teacherId } = req.body;
+        const { name, input, output, description } = req.body;
+        let teacherId = req.session.user.id;
 
         const dao = {
             name,
@@ -68,7 +69,8 @@ module.exports.makeProblem = async(req, res, next) => {
 
 module.exports.viewProblems = async(req, res, next) => {
     try {
-        res.render("listProb.html");
+        const records = await problemService.readProblems();
+        res.render("listProb.html", { data: JSON.stringify(records) });
     } catch (err) {
         next(err);
     }

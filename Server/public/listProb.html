@@ -5,5 +5,27 @@
 </header>
 
 <body>
-    <p>문제화면임</p>
+    <table id="probTable">
+        <th>ID</th>
+        <th>제목</th>
+        <th>인풋</th>
+        <th>아웃풋</th>
+        <th>설명</th>
+        <th>만든시각</th>
+
+    </table>
+    <script type="text/javascript">
+        let table = document.querySelector("#probTable");
+        let probList = JSON.parse('<%- data %>');
+        console.log(probList)
+        for (let prob of probList) {
+            let row = document.createElement("tr");
+            for (let key in prob) {
+                let col = document.createElement("td");
+                col.innerText = prob[key];
+                row.appendChild(col);
+            }
+            table.appendChild(row);
+        }
+    </script>
 </body>

@@ -11,7 +11,6 @@ const problemInfoValid = [
     body("input").notEmpty(),
     body("output").notEmpty(),
     body("description").notEmpty(),
-    body("teacherId").notEmpty(),
 ]
 problemRouter.get(routes.ROOT, checkLogin, problemContoller.getProblems);
 

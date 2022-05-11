@@ -5,5 +5,28 @@
 </header>
 
 <body>
-    <p>문제풀이 결과임</p>
+    <table id="probTable">
+        <th>학생ID</th>
+        <th>정답유무</th>
+        <th>제출시각</th>
+
+    </table>
+    <script type="text/javascript">
+        let table = document.querySelector("#probTable");
+        let probList = JSON.parse('<%- data %>');
+        console.log(probList)
+        for (let prob of probList) {
+            let row = document.createElement("tr");
+            let col = document.createElement("td");
+            col.innerText = prob["studentId"];
+            row.appendChild(col);
+            col = document.createElement("td");
+            col.innerText = prob["isCorrect"];
+            row.appendChild(col);
+            col = document.createElement("td");
+            col.innerText = prob["createdAt"];
+            row.appendChild(col);
+            table.appendChild(row);
+        }
+    </script>
 </body>

@@ -5,5 +5,32 @@
 </header>
 
 <body>
-    <p>문제제작임</p>
+    <form method="post" id="makeData" action="/problems/make">
+        <label>제목</label>
+        <input type="text" name="name">
+        <label>인풋값</label>
+        <input type="text" name="input">
+        <label>결과값</label>
+        <input type="text" name="output">
+        <label>설명 </label>
+        <input type="text" name="description">
+    </form>
+    <button type="button" onclick="makeProb();">만들기</button>
+    <script type="text/javascript">
+        function makeProb() {
+            let formData = document.querySelector("#makeData");
+            let bodyData = JSON;
+            for (let ele of formData.elements) {
+                bodyData[ele.name] = ele.value;
+            }
+            console.log(bodyData)
+            fetch("/problems", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(bodyData)
+            })
+        }
+    </script>
 </body>

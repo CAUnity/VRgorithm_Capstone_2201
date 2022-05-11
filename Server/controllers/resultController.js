@@ -39,7 +39,8 @@ module.exports.postResult = async(req, res, next) => {
 // 상세 페이지 API
 module.exports.viewResults = async(req, res, next) => {
     try {
-        res.render("listResult.html");
+        const records = await resultService.readResults();
+        res.render("listResult.html", { data: JSON.stringify(records) });
     } catch (err) {
         next(err);
     }

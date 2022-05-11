@@ -4,7 +4,10 @@ const { Op } = require('sequelize');
 
 exports.readProblems = async() => {
     try {
-        return await models.problem.findAll();
+        return await models.problem.findAll({
+            attributes: ['id', 'name', 'input', 'output', 'description', 'createdAt'],
+            raw: true
+        });
     } catch (err) {
         throw err;
     }
