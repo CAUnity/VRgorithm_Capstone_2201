@@ -12,6 +12,7 @@ public class Tester : MonoBehaviour {
 
     public void Awake() {
         inputArray = GameObject.Find("inputArray").GetComponent<ArrayVariable>();
+
         inputArray[0] = new IntVariable();
         inputArray[0].Value = 10;
         inputArray[1] = new IntVariable();
