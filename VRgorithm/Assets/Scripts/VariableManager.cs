@@ -13,7 +13,7 @@ public class VariableManager : MonoBehaviour {
     public void start_save(){
         changed_variables= new Stack<List<IntVariable>>();
     }
-
+    /*
     public void check_change(){
         List<IntVariable> changed_list = new List<IntVariable>();
         for(int i=0; i<variables.Capacity; i++){
@@ -41,5 +41,5 @@ public class VariableManager : MonoBehaviour {
         for (int i=0;i<undo_list.Capacity;i++) {
             undo_list[i].undo();
         }
-    }
+    }*/
 }
