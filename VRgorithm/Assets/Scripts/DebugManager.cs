@@ -6,7 +6,6 @@ public class DebugManager : MonoBehaviour {
     public IBlock process;
     public IntVariable outputVariable;
 
-
     public void Start() {
         process = GameObject.Find("startBlock").GetComponent<StartBlock>();
         outputVariable = GameObject.Find("outputVariable").GetComponent<IntVariable>();

@@ -8,16 +8,11 @@ public class Tester : MonoBehaviour {
     ArithBlock arithBlock_2;
     WhileBlock whileBlock;
     EndBlock endBlock;
-    VariableManager variableManager;
     List<IVariable> var_list;
 
     public void Awake() {
+        inputArray = GameObject.Find("inputArray").GetComponent<ArrayVariable>();
 
-    }
-
-    public void Start() {
-        variableManager = GameObject.Find("variableManager").GetComponent<VariableManager>();
-        /*
         inputArray[0] = new IntVariable();
         inputArray[0].Value = 10;
         inputArray[1] = new IntVariable();
@@ -69,7 +64,10 @@ public class Tester : MonoBehaviour {
         arithBlock_2.rhs = outputVariable;
 
         arithBlock_2.ret = outputVariable;
-        */
+    }
+
+    public void Start() {
+        
     }
 
     public void Update() {

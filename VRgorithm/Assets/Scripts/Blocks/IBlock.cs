@@ -1,10 +1,10 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface IBlock {
     IBlock next { get; set; }
-    IBlock prev { get; set; }
+    List<IBlock> prev { get; set; }
 
     bool instruction();
-    
 }

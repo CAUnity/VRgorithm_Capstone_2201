@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArithBlock : MonoBehaviour, IBlock {
     public IBlock next { get; set; }
-    public IBlock prev { get; set; }
+    public List<IBlock> prev { get; set; } = new List<IBlock>();
 
     public IVariable lhs;
     public IArithOperator arith;

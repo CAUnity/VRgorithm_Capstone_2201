@@ -1,23 +1,51 @@
+
+using System;
+using TMPro;
 using UnityEngine;
-using System.Collections.Generic;
 
-public class IntVariable : MonoBehaviour, IVariable {
-    public Stack<int> stack;
-
-    public int Value { get; set;} = 0;
-
-    public string Name {
-        get { return Name; }
-        set { Name = value; }
+public class IntVariable : MonoBehaviour, IVariable
+{
+    private int _value;
+    public int Value
+    {
+        get => _value;
+        set
+        {
+            _value = value;
+            OnValueUpdate(_value);
+        }
     }
 
-    void Start() {
-        stack = new Stack<int>();
-        stack.Push(Value);
+    private string _varName;
+    public string Name
+    {
+        get => _varName;
+        set
+        {
+            _varName = value;
+            OnNameUpdate(_varName);
+        }
     }
 
-    public void undo() {
-        stack.Pop();
-        Value = stack.Peek();
+    [SerializeField] private TextMeshProUGUI valUI;
+    [SerializeField] private TextMeshProUGUI varNameUI;
+    
+    public event Action<int> OnValueUpdate = delegate {  };
+    public event Action<string> OnNameUpdate = delegate {  };
+
+    private void Awake()
+    {
+        OnValueUpdate += UpdateValUI;
+        OnNameUpdate += UpdateVarNameUI;
+    }
+
+    private void UpdateValUI(int val)
+    {
+        valUI.text = val.ToString();
+    }
+    
+    private void UpdateVarNameUI(string text)
+    {
+        varNameUI.text = text;
     }
 }
