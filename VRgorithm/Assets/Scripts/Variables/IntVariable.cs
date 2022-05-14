@@ -1,24 +1,23 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 
 public class IntVariable : MonoBehaviour, IVariable {
-    
-    public int Value { get; set; }
+    public Stack<int> stack;
 
-    public string Name
-    {
+    public int Value { get; set;} = 0;
+
+    public string Name {
         get { return Name; }
         set { Name = value; }
     }
 
     void Start() {
-        
+        stack = new Stack<int>();
+        stack.Push(Value);
     }
 
-    void Update() {
-        
+    public void undo() {
+        stack.Pop();
+        Value = stack.Peek();
     }
-
-
-
 }

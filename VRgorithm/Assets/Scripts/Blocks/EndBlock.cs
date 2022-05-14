@@ -19,13 +19,7 @@ public class EndBlock : MonoBehaviour, IBlock {
 
     public bool instruction()
     {
-        if(ans == user_ans) // == comp 함수 만들어야함
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        // compare answer
+        return true;
     }
 }
