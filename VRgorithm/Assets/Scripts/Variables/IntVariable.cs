@@ -12,6 +12,7 @@ public class IntVariable : MonoBehaviour, IVariable {
     }
 
     void Start() {
+        stack = new Stack<int>();
         stack.Push(Value);
     }
 
