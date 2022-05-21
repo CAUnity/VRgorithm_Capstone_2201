@@ -25,7 +25,7 @@ module.exports.postRegister = async(req, res, next) => {
             .status(statusCode.OK)
             .send(resFormatter.success(responseMessage.READ_SUCCESS, result));
     } catch (err) {
-        next(err);
+        throw err;
     }
 };
 
@@ -49,14 +49,14 @@ module.exports.postToken = async(req, res, next) => {
             .status(statusCode.OK)
             .send(resFormatter.success(responseMessage.LIST_SUCCESS, token));
     } catch (err) {
-        next(err);
+        throw err;
     }
 };
 
 module.exports.postLogin = async(req, res, next) => {
     try {
         if (req.session.user) {
-            return req.render("main.html")
+            return res.render("main.html")
         } else {
             const { id, password } = req.body;
 
@@ -75,13 +75,17 @@ module.exports.postLogin = async(req, res, next) => {
             return res.redirect("/");
         }
     } catch (err) {
-        next(err);
+        throw err;
     }
 }
 
 module.exports.getLogin = async(req, res, next) => {
     try {
-        res.render("login.html");
+        if (req.session.user) {
+            return res.render("main.html")
+        } else {
+            res.render("login.html");
+        }
     } catch (err) {
         throw err;
     }

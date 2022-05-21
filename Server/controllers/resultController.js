@@ -13,7 +13,7 @@ module.exports.getResults = async(req, res, next) => {
             .status(statusCode.OK)
             .send(resFormatter.success(responseMessage.READ_SUCCESS, records));
     } catch (err) {
-        next(err);
+        throw err;
     }
 };
 
@@ -32,7 +32,7 @@ module.exports.postResult = async(req, res, next) => {
             .status(statusCode.OK)
             .send(resFormatter.success(responseMessage.READ_SUCCESS, result));
     } catch (err) {
-        next(err);
+        throw err;
     }
 };
 
@@ -42,6 +42,6 @@ module.exports.viewResults = async(req, res, next) => {
         const records = await resultService.readResults();
         res.render("listResult.html", { data: JSON.stringify(records) });
     } catch (err) {
-        next(err);
+        throw err;
     }
 };

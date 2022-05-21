@@ -13,7 +13,7 @@ module.exports.getProblems = async(req, res, next) => {
             .status(statusCode.OK)
             .send(resFormatter.success(responseMessage.READ_SUCCESS, records));
     } catch (err) {
-        next(err);
+        throw err;
     }
 };
 
@@ -37,7 +37,7 @@ module.exports.postProblem = async(req, res, next) => {
             .status(statusCode.OK)
             .send(resFormatter.success(responseMessage.LIST_SUCCESS, result.id));
     } catch (err) {
-        next(err);
+        throw err;
     }
 };
 
@@ -54,7 +54,7 @@ module.exports.getProblemDetail = async(req, res, next) => {
             .status(statusCode.OK)
             .send(resFormatter.success(responseMessage.LIST_SUCCESS, record));
     } catch (err) {
-        next(err);
+        throw err;
     }
 };
 
@@ -63,7 +63,7 @@ module.exports.makeProblem = async(req, res, next) => {
     try {
         res.render("makeProb.html");
     } catch (err) {
-        next(err);
+        throw err;
     }
 };
 
@@ -72,6 +72,6 @@ module.exports.viewProblems = async(req, res, next) => {
         const records = await problemService.readProblems();
         res.render("listProb.html", { data: JSON.stringify(records) });
     } catch (err) {
-        next(err);
+        throw err;
     }
 };

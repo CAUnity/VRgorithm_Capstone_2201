@@ -9,6 +9,6 @@ module.exports.viewIndex = async(req, res, next) => {
     try {
         res.render("main.html");
     } catch (err) {
-        next(err);
+        throw err;
     }
 };
