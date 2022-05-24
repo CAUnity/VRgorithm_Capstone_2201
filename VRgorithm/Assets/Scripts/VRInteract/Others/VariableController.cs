@@ -13,9 +13,18 @@ namespace VRInteract.Operands
         
         private void Start()
         {
-            dropDown.ClearOptions();
-            dropDown.AddOptions(VrCompiler.Ins.VariableKeys);
+            VrCompiler.Ins.OnUpdateVariable += UpdateOptions;
             dropDown.onValueChanged.AddListener(OnValueChanged);
+            UpdateOptions();
+            OnValueChanged(dropDown.value);
+        }
+        private void UpdateOptions()
+        {
+            var curr = dropDown.options[dropDown.value].text;
+            dropDown.ClearOptions();
+            dropDown.AddOptions(VrCompiler.Ins.AllVariableKeys);
+            var index = dropDown.options.FindIndex(v=>v.text == curr);
+            dropDown.value = index == -1 ? 0 : index;
             OnValueChanged(dropDown.value);
         }
         private void OnValueChanged(int val)

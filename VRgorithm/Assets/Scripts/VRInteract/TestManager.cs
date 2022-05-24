@@ -7,10 +7,9 @@ namespace VRInteract
     {
         private void Start()
         {
-            VrCompiler.Ins.CreateIntVariable("a", 1);
-            VrCompiler.Ins.CreateIntVariable("b", 2);
-            VrCompiler.Ins.CreateIntVariable("c", 3);
-            VrCompiler.Ins.CreateIntVariable("d", 4);
+            VrCompiler.Ins.CreateIntVariable("a", 1,VariableType.Defined);
+            VrCompiler.Ins.CreateIntVariable("b", 2,VariableType.Defined);
+            VrCompiler.Ins.CreateIntVariable("c", 3,VariableType.Defined);
         }
     }
 }

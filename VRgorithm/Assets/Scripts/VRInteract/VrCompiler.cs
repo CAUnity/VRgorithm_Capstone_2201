@@ -16,6 +16,7 @@ namespace VRInteract
         [Header("Variable")]
         [SerializeField] private GameObject variablePrefab;
         [SerializeField] private VariableTray variableTray;
+        [SerializeField] private List<IntVariable> constVariables;
         [Header("Procedure")]
         [SerializeField] private Button startButton;
         
@@ -23,10 +24,24 @@ namespace VRInteract
         private readonly Dictionary<string,IArithOperator> _arithOperators = new Dictionary<string,IArithOperator>();
         private readonly Dictionary<string,ICompOperator> _compOperators = new Dictionary<string,ICompOperator>();
         
-        public List<string> VariableKeys => _variables.Keys.ToList();
+        public List<string> AllVariableKeys => _variables.Keys.ToList(); // get all variables, including const variables(0,1,2,...)
+        public List<string> DefinedVariableKeys => _variables.Where(v=>v.Value.Type == VariableType.Defined)
+            .Select(v=>v.Key)
+            .ToList();//get
+        public List<string> UserVariableKeys => _variables.Where(v=>v.Value.Type == VariableType.User)
+            .Select(v=>v.Key)
+            .ToList();//get
+        public List<string> ConstantVariableKeys => _variables.Where(v=>v.Value.Type == VariableType.Const)
+            .Select(v=>v.Key)
+            .ToList();//get user variables only
+        public List<string> NotConstantVariableKeys => _variables.Where(v=>v.Value.Type != VariableType.Const)
+            .Select(v=>v.Key)
+            .ToList();//get user variables only
+        
         public List<string> ArithKeys => _arithOperators.Keys.ToList();
         public List<string> CompKeys => _compOperators.Keys.ToList();
-        
+        public event Action OnUpdateVariable = delegate {}; 
+
         public IArithOperator GetArithOperator(string id)
         {
             return _arithOperators[id];
@@ -39,14 +54,35 @@ namespace VRInteract
         {
             return _variables[id];
         }
-        public IntVariable CreateIntVariable(string id,int val)
+        public IntVariable CreateIntVariable(string id,int val,VariableType type)
         {
             var instance = Instantiate(variablePrefab).GetComponent<IntVariable>();
+            instance.Type = type;
             instance.Name = id;
             instance.Value = val;
-            variableTray.AddVariable(instance);
             _variables.Add(id,instance);
+            
+            if (type == VariableType.Const)// const variable은 렌더링 X
+                instance.gameObject.SetActive(false); 
+            else
+                variableTray.AddVariable(instance);
+            
+            OnUpdateVariable();
             return instance;
+        }
+
+        public void DestroyIntVariable(string id)
+        {
+            if (!_variables.ContainsKey(id))
+            {
+                Debug.Log($"Failed to destroy variable [{id}]");
+            }
+
+            var instance = _variables[id];
+            variableTray.RemoveVariable(instance);
+            _variables.Remove(id);
+            Destroy(instance.gameObject);
+            OnUpdateVariable();
         }
         
         /// <summary>
@@ -66,6 +102,11 @@ namespace VRInteract
             _compOperators.Add("<=",new LessEqOperator());
             _compOperators.Add("<",new LessOperator());
             _compOperators.Add("!=",new NeqOperator());
+
+            for (var i = 0; i < 10; i++)//상수 만들기
+            {
+                CreateIntVariable(i.ToString(), i, VariableType.Const);
+            }
             
             startButton.onClick.AddListener(StartRun);
         }
