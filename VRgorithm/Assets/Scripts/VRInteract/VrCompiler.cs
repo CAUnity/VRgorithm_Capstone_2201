@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common;
@@ -13,11 +13,15 @@ namespace VRInteract
     {
         [Header("Blocks")]
         [SerializeField] private StartBlock startBlock;
+        [SerializeField] private IBlock processBlock;
         [Header("Variable")]
         [SerializeField] private GameObject variablePrefab;
         [SerializeField] private VariableTray variableTray;
         [Header("Procedure")]
         [SerializeField] private Button startButton;
+        [SerializeField] private Button nextButton;
+        [SerializeField] private Button resetButton;
+        
         
         private readonly Dictionary<string,IntVariable> _variables = new Dictionary<string,IntVariable>();
         private readonly Dictionary<string,IArithOperator> _arithOperators = new Dictionary<string,IArithOperator>();
@@ -39,6 +43,7 @@ namespace VRInteract
         {
             return _variables[id];
         }
+
         public IntVariable CreateIntVariable(string id,int val)
         {
             var instance = Instantiate(variablePrefab).GetComponent<IntVariable>();
@@ -48,7 +53,7 @@ namespace VRInteract
             _variables.Add(id,instance);
             return instance;
         }
-        
+
         /// <summary>
         /// MonoSingleton 상속받을때는 Awake대신 OnAwake override해서 써야함!
         /// </summary>
@@ -68,16 +73,34 @@ namespace VRInteract
             _compOperators.Add("!=",new NeqOperator());
             
             startButton.onClick.AddListener(StartRun);
+            nextButton.onClick.AddListener(NextRun);
+            resetButton.onClick.AddListener(ResetRun);
+            processBlock = startBlock;
         }
 
         private void StartRun()
         {
-            IBlock process = startBlock;
-            while (process != null) {
-                print(process);
-                process.instruction();
-                process = process.next;
+            while (processBlock != null) {
+                NextRun();
             }
         }
+
+        private void NextRun()
+        {
+            if(processBlock == startBlock){
+                variableTray.SaveVariable();
+            }
+            print(processBlock);
+            processBlock.instruction();
+            processBlock = processBlock.next;
+        }
+
+        private void ResetRun()
+        {
+            processBlock = startBlock;
+            variableTray.RetrieveVariable();
+        }
+
+
     }
 }
