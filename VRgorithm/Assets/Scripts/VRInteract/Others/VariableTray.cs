@@ -6,7 +6,7 @@ namespace VRInteract.Operands
     public class VariableTray : MonoBehaviour
     {
         private readonly List<IntVariable> _variables = new List<IntVariable>();
-        private List<int> savedValues;
+        private readonly List<int> savedValues = new List<int>();
 
 
         public void AddVariable(IntVariable variable)
@@ -20,7 +20,7 @@ namespace VRInteract.Operands
 
         public void SaveVariable()
         {
-            savedValues = new List<int>();
+            savedValues.Clear();
             for(int i=0;i<_variables.Capacity;i++) {
                 savedValues.Add(_variables[i].Value);
             }

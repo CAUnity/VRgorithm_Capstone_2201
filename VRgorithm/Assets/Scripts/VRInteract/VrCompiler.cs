@@ -100,7 +100,5 @@ namespace VRInteract
             processBlock = startBlock;
             variableTray.RetrieveVariable();
         }
-
-
     }
 }
