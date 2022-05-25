@@ -8,7 +8,8 @@ namespace VRInteract.Blocks
         [SerializeField] private InConnector inConnector;
         [SerializeField] private OutConnector outConnector;
         [SerializeField] private ArithBlock arithBlock;
-        [SerializeField] private VariableController leftVar, rightVar,result;
+        [SerializeField] private VariableController leftVar, rightVar;
+        [SerializeField] private AssignVariableController result;
         [SerializeField] private ArithOperandController operand;
         
         public override IBlock Block => arithBlock;

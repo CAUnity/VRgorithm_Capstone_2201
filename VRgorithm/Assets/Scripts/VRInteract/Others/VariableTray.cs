@@ -12,23 +12,36 @@ namespace VRInteract.Operands
         public void AddVariable(IntVariable variable)
         {
             _variables.Add(variable);
-            var tr = variable.transform;
-            tr.SetParent(transform);
-            tr.localPosition = (Vector3.right/5f) * _variables.Count;
+            variable.transform.SetParent(transform);
+            OrderVariables();
+        }
+
+        public void RemoveVariable(IntVariable variable)
+        {
+            _variables.Remove(variable);
+            OrderVariables();
+        }
+        
+        private void OrderVariables()
+        {
+            for (var i = 0; i < _variables.Count; i++)
+            {
+                _variables[i].transform.localPosition= Vector3.left / 10f * i;
+            }
         }
 
 
         public void SaveVariable()
         {
             savedValues.Clear();
-            for(int i=0;i<_variables.Capacity;i++) {
+            for(int i=0;i<_variables.Count;i++) {
                 savedValues.Add(_variables[i].Value);
             }
         }
 
         public void RetrieveVariable()
         {
-            for (int i=0;i < _variables.Capacity;i++) {
+            for (int i=0;i < _variables.Count;i++) {
                 _variables[i].Value = savedValues[i];
             }
         }

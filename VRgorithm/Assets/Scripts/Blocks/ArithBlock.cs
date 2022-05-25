@@ -5,6 +5,7 @@ using UnityEngine;
 public class ArithBlock : MonoBehaviour, IBlock {
     public IBlock next { get; set; }
     public List<IBlock> prev { get; set; } = new List<IBlock>();
+    public Transform blockTransform => transform;
 
     public IVariable lhs;
     public IArithOperator arith;
