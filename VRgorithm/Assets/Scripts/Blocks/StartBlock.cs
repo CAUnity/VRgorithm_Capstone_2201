@@ -4,7 +4,7 @@ using UnityEngine;
 public class StartBlock : MonoBehaviour, IBlock {
     public IBlock next { get; set; }
     public List<IBlock> prev { get; set; } = new List<IBlock>();
-
+    public Transform blockTransform => transform;
     void start() {
     }
 

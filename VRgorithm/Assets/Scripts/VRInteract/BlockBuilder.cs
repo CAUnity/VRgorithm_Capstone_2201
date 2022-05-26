@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Common;
 using TMPro;
 using UnityEngine;
@@ -11,30 +12,41 @@ namespace VRInteract
     {
         [SerializeField] private Transform tray;
         [SerializeField] private Transform environment;
+        
         [Header("Prefabs")]
-        [SerializeField] private GameObject blockButtonPrefab;
-        [SerializeField] private List<GameObject> blockPrefabs;
-
-        private void Awake()
-        {
-            foreach (var prefab in blockPrefabs)
-            {
-                AddBuildButton(prefab);
-            }
-        }
+        [SerializeField] private GameObject arithBlock;
+        [SerializeField] private GameObject ifBlock;
+        [SerializeField] private GameObject whileBlock;
         public void SetPos(Vector3 worldPos)
         {
             transform.position = worldPos;
         }
-        private void AddBuildButton(GameObject go)
+        public void CreateArith()
         {
-            var buttonInstance = Instantiate(blockButtonPrefab,tray);
-            var btn = buttonInstance.GetComponent<Button>();
-            var textUI = buttonInstance.GetComponentInChildren<TextMeshProUGUI>();
-            btn.onClick.AddListener(() => BuildBlock(go));
-            textUI.text = go.name;
+            BuildBlock(arithBlock);
         }
-
+        public void CreateIf()
+        {
+            BuildBlock(ifBlock);
+        }
+        public void CreateWhile()
+        {
+            BuildBlock(whileBlock);
+        }
+        public void AddUserVariable()
+        {
+            var keys = VrCompiler.Ins.NotConstantVariableKeys;
+            var last = (char)('a'+keys.Count); //create next alphabet
+            VrCompiler.Ins.CreateIntVariable(last.ToString(), 0,VariableType.User);
+        }
+        public void RemoveUserVariable()
+        {
+            var keys = VrCompiler.Ins.UserVariableKeys;
+            if (keys.Count > 0)
+            {
+                VrCompiler.Ins.DestroyIntVariable(keys.Last()); //destroy last key
+            }
+        }
         private void BuildBlock(GameObject go)
         {
             Instantiate(go,environment).transform.position = transform.position + Vector3.up;
