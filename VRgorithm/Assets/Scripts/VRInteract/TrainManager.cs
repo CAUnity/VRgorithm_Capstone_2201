@@ -13,7 +13,6 @@ namespace VRInteract{
 
         private void Start()
         {
-            
         }
 
         public void StartMoveRoutine(Vector3 pos){
@@ -25,7 +24,7 @@ namespace VRInteract{
         }
 
         IEnumerator MoveRoutine(Vector3 pos){
-            Vector3 dis = (pos - train.transform.position)/speed;
+            Vector3 dis = (pos - train.transform.position) / speed;
 
             for(int i = 0; i < speed; i++)
             {
