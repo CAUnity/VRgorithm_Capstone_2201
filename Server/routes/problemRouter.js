@@ -12,7 +12,7 @@ const problemInfoValid = [
     body("output").notEmpty(),
     body("description").notEmpty(),
 ]
-problemRouter.get(routes.ROOT, checkLogin, problemContoller.getProblems);
+problemRouter.get(routes.ROOT, problemContoller.getProblems);
 
 problemRouter.post(routes.ROOT, problemInfoValid, validErrorChecker, problemContoller.postProblem);
 
