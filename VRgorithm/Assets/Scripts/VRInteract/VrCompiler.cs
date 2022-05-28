@@ -13,6 +13,7 @@ namespace VRInteract
     {
         [Header("Blocks")]
         [SerializeField] private StartBlock startBlock;
+        [SerializeField] private EndBlock endBlock;
         [SerializeField] private IBlock processBlock;
         [Header("Variable")]
         [SerializeField] private GameObject variablePrefab;
@@ -22,6 +23,9 @@ namespace VRInteract
         [SerializeField] private Button startButton;
         [SerializeField] private Button nextButton;
         [SerializeField] private Button resetButton;
+        [Header("Text")]
+        [SerializeField] private GameObject rightText;
+        [SerializeField] private GameObject wrongText;
         
 
         private readonly Dictionary<string,IntVariable> _variables = new Dictionary<string,IntVariable>();
@@ -111,13 +115,18 @@ namespace VRInteract
             {
                 CreateIntVariable(i.ToString(), i, VariableType.Const);
             }
-            
+
+            VrCompiler.Ins.CreateIntVariable("C", 0, VariableType.Defined);
+            VrCompiler.Ins.CreateIntVariable("B", 5, VariableType.Defined);
+            VrCompiler.Ins.CreateIntVariable("A", 3, VariableType.Defined);
+
+
             startButton.onClick.AddListener(StartRun);
             nextButton.onClick.AddListener(NextRun);
             resetButton.onClick.AddListener(ResetRun);
             processBlock = startBlock;
 
-            TrainManager.Ins.teleport(processBlock.blockTransform.position);
+            TrainManager.Ins.teleport(startBlock.blockTransform.position);
         }
 
         private void StartRun()
@@ -126,10 +135,27 @@ namespace VRInteract
             {
                 variableTray.SaveVariable();
             }
-            while (!(processBlock is EndBlock) || processBlock != null) {
+            while (processBlock != null) {
                 print(processBlock);
-                processBlock.instruction();
-                processBlock = processBlock.next;
+                if(processBlock == endBlock)
+                {
+                    if(endBlock.instruction(_variables["C"].Value)){
+                        // yes
+                        wrongText.SetActive(false);
+                        rightText.SetActive(true);
+                    }
+                    else {
+                        // wrong
+                        rightText.SetActive(false);
+                        wrongText.SetActive(true);
+                    }
+                    break;
+                }
+                else
+                {
+                    processBlock.instruction();       
+                    processBlock = processBlock.next;
+                }
             }
 
             TrainManager.Ins.teleport(processBlock.blockTransform.position);
@@ -141,13 +167,27 @@ namespace VRInteract
             {
                 variableTray.SaveVariable();
             }
-            //processBlock.blockTransform.position
-            //TrainManager.Ins.
             TrainManager.Ins.StartMoveRoutine(processBlock.blockTransform.position);
             print(processBlock);
-            processBlock.instruction();
-            processBlock = processBlock.next;
-     
+
+            if(processBlock == endBlock)
+            {
+                if(endBlock.instruction(_variables["C"].Value)){
+                    // yes
+                    wrongText.SetActive(false);
+                    rightText.SetActive(true);
+                }
+                else {
+                    // wrong
+                    rightText.SetActive(false);
+                    wrongText.SetActive(true);
+                }
+            }
+            else
+            {
+                processBlock.instruction();       
+                processBlock = processBlock.next;
+            }
         }
 
         private void ResetRun()

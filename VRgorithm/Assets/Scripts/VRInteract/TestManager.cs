@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Common;
 
 namespace VRInteract
@@ -7,9 +7,7 @@ namespace VRInteract
     {
         private void Start()
         {
-            VrCompiler.Ins.CreateIntVariable("a", 1,VariableType.Defined);
-            VrCompiler.Ins.CreateIntVariable("b", 2,VariableType.Defined);
-            VrCompiler.Ins.CreateIntVariable("c", 3,VariableType.Defined);
+
         }
     }
 }
