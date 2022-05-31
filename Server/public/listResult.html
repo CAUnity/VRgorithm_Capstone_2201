@@ -116,6 +116,7 @@
                                     <thead>
                                         <tr>
                                             <th>학생ID</th>
+                                            <th>문제ID</th>
                                             <th>정답유무</th>
                                             <th>제출시각</th>
                                         </tr>
@@ -177,6 +178,9 @@
             let row = document.createElement("tr");
             let col = document.createElement("td");
             col.innerText = prob["studentId"];
+            row.appendChild(col);
+            col = document.createElement("td");
+            col.innerText = prob["problemId"];
             row.appendChild(col);
             col = document.createElement("td");
             col.innerText = prob["isCorrect"];
