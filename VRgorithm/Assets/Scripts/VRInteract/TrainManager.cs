@@ -10,10 +10,7 @@ namespace VRInteract{
         [SerializeField] private GameObject train;
         [SerializeField] private Vector3 offset;
         [SerializeField] private int speed;
-
-        private void Start()
-        {
-        }
+        
 
         public void StartMoveRoutine(Vector3 pos){
             StartCoroutine(MoveRoutine(pos + offset));

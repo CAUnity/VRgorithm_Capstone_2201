@@ -10,5 +10,4 @@ public static class ProblemData
     public static string studentId = "1";
     public static int problemId = 1;
     public static string name = "더하기";
-
 }
