@@ -1,5 +1,5 @@
 ﻿public static class SceneId
 {
-    public const string Title = "Title";
-    public const string InGame = "InGame";
+    public const string Title = "MainMenu";
+    public const string InGame = "Stage";
 }
