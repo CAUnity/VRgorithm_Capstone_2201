@@ -14,19 +14,16 @@ namespace VRInteract
         [Header("Blocks")]
         [SerializeField] private StartBlock startBlock;
         [SerializeField] private EndBlock endBlock;
-        [SerializeField] private IBlock processBlock;
         [Header("Variable")]
         [SerializeField] private GameObject variablePrefab;
         [SerializeField] private VariableTray variableTray;
-        [SerializeField] private List<IntVariable> constVariables;
         [Header("Procedure")]
         [SerializeField] private Button startButton;
         [SerializeField] private Button nextButton;
         [SerializeField] private Button resetButton;
-        [Header("Text")]
-        [SerializeField] private GameObject rightText;
-        [SerializeField] private GameObject wrongText;
-        
+
+
+        private IBlock _processBlock;
 
         private readonly Dictionary<string,IntVariable> _variables = new Dictionary<string,IntVariable>();
         private readonly Dictionary<string,IArithOperator> _arithOperators = new Dictionary<string,IArithOperator>();
@@ -111,90 +108,77 @@ namespace VRInteract
             _compOperators.Add("<",new LessOperator());
             _compOperators.Add("!=",new NeqOperator());
 
-            for (var i = 0; i < 10; i++)//상수 만들기
+            for (var i = 0; i < 4; i++)//상수 만들기
             {
                 CreateIntVariable(i.ToString(), i, VariableType.Const);
             }
-
-            VrCompiler.Ins.CreateIntVariable("C", 0, VariableType.Defined);
-            VrCompiler.Ins.CreateIntVariable("B", 5, VariableType.Defined);
-            VrCompiler.Ins.CreateIntVariable("A", 3, VariableType.Defined);
-
-
+            
             startButton.onClick.AddListener(StartRun);
             nextButton.onClick.AddListener(NextRun);
             resetButton.onClick.AddListener(ResetRun);
-            processBlock = startBlock;
+            _processBlock = startBlock;
+        }
 
+        private void Start()
+        {
             TrainManager.Ins.teleport(startBlock.blockTransform.position);
+            TestManager.Ins.SetObjective();
+            TestManager.Ins.SetInputData();
         }
 
         private void StartRun()
         {
-            if (processBlock == startBlock)
+            if (_processBlock == startBlock)
             {
                 variableTray.SaveVariable();
             }
-            while (processBlock != null) {
-                print(processBlock);
-                if(processBlock == endBlock)
+            while (_processBlock != null) {
+                print(_processBlock);
+                if(_processBlock == endBlock)
                 {
-                    if(endBlock.instruction(_variables["C"].Value)){
-                        // yes
-                        wrongText.SetActive(false);
-                        rightText.SetActive(true);
-                    }
-                    else {
-                        // wrong
-                        rightText.SetActive(false);
-                        wrongText.SetActive(true);
-                    }
+                    OnRunEnd();
                     break;
                 }
                 else
                 {
-                    processBlock.instruction();       
-                    processBlock = processBlock.next;
+                    _processBlock.instruction();       
+                    _processBlock = _processBlock.next;
                 }
             }
 
-            TrainManager.Ins.teleport(processBlock.blockTransform.position);
+            TrainManager.Ins.teleport(_processBlock.blockTransform.position);
         }
-
         private void NextRun()
         {
-            if (processBlock == startBlock)
+            if (_processBlock == startBlock)
             {
                 variableTray.SaveVariable();
             }
-            TrainManager.Ins.StartMoveRoutine(processBlock.blockTransform.position);
-            print(processBlock);
+            TrainManager.Ins.StartMoveRoutine(_processBlock.blockTransform.position);
+            print(_processBlock);
 
-            if(processBlock == endBlock)
+            if(_processBlock == endBlock)
             {
-                if(endBlock.instruction(_variables["C"].Value)){
-                    // yes
-                    wrongText.SetActive(false);
-                    rightText.SetActive(true);
-                }
-                else {
-                    // wrong
-                    rightText.SetActive(false);
-                    wrongText.SetActive(true);
-                }
+                OnRunEnd();
             }
             else
             {
-                processBlock.instruction();       
-                processBlock = processBlock.next;
+                _processBlock.instruction();       
+                _processBlock = _processBlock.next;
             }
         }
-
         private void ResetRun()
         {
-            processBlock = startBlock;
+            _processBlock = startBlock;
             variableTray.RetrieveVariable();
-            TrainManager.Ins.teleport(processBlock.blockTransform.position);
+            TrainManager.Ins.teleport(_processBlock.blockTransform.position);
+        }
+        private void OnRunEnd()
+        {
+            TestManager.Ins.TestResults(_variables
+                .Where(v=>v.Value.Type == VariableType.Defined)
+                .Select(v=>v.Value.Value)
+                .ToList());
         }
     }
 }

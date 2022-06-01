@@ -29,8 +29,6 @@ namespace VRInteract.Operands
                 _variables[i].transform.localPosition= Vector3.left / 10f * i;
             }
         }
-
-
         public void SaveVariable()
         {
             savedValues.Clear();
@@ -38,15 +36,11 @@ namespace VRInteract.Operands
                 savedValues.Add(_variables[i].Value);
             }
         }
-
         public void RetrieveVariable()
         {
             for (int i=0;i < _variables.Count;i++) {
                 _variables[i].Value = savedValues[i];
             }
         }
-
-
-
     }
 }

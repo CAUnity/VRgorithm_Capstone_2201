@@ -20,6 +20,28 @@ MonoBehaviour:
   company: Unity
   priority: 0
   required: 0
+--- !u!114 &-6583904224053656933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a1f07dc5afe854f9f12a4194aca3fb, type: 3}
+  m_Name: Android
+  m_EditorClassIdentifier: 
+  features:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8623589528865051978}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_renderMode: 0
+  m_depthSubmissionMode: 0
 --- !u!114 &-5881168785163885665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,8 +85,9 @@ MonoBehaviour:
   - {fileID: -6661134182434246780}
   - {fileID: 1248855045237468655}
   - {fileID: -5022340372744321824}
-  m_renderMode: 1
+  m_renderMode: 0
   m_depthSubmissionMode: 0
+  lastPlayVersion: 
 --- !u!114 &-5022340372744321824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +212,7 @@ MonoBehaviour:
   - {fileID: -2683113825524597831}
   m_renderMode: 1
   m_depthSubmissionMode: 0
+  lastPlayVersion: 
 --- !u!114 &-239866877301912399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +429,26 @@ MonoBehaviour:
   version: 0.0.1
   featureIdInternal: com.unity.openxr.feature.input.eyetracking
   openxrExtensionStrings: XR_EXT_eye_gaze_interaction
+  company: Unity
+  priority: 0
+  required: 0
+--- !u!114 &8623589528865051978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef793c31862a37448e907829482ef80, type: 3}
+  m_Name: OculusQuestFeature Android
+  m_EditorClassIdentifier: 
+  m_enabled: 0
+  nameUi: Oculus Quest Support
+  version: 1.0.0
+  featureIdInternal: com.unity.openxr.feature.oculusquest
+  openxrExtensionStrings: XR_OCULUS_android_initialize_loader
   company: Unity
   priority: 0
   required: 0

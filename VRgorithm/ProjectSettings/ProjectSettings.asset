@@ -164,7 +164,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.DefaultCompany.HardDemo
-    Standalone: com.DefaultCompany.VRgorithm
+    Standalone: com.DefaultCompany.HardDemo
   buildNumber:
     Standalone: 0
     iPhone: 0
