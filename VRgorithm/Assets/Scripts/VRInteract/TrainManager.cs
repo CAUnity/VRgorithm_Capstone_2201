@@ -7,6 +7,7 @@ namespace VRInteract{
 
     public class TrainManager : MonoSingleton<TrainManager>
     {
+        [SerializeField] private AudioSource audio;
         [SerializeField] private GameObject train;
         [SerializeField] private Vector3 offset;
         [SerializeField] private int speed;
@@ -21,6 +22,7 @@ namespace VRInteract{
         }
 
         IEnumerator MoveRoutine(Vector3 pos){
+            audio.Play();
             Vector3 dis = (pos - train.transform.position) / speed;
 
             for(int i = 0; i < speed; i++)
@@ -28,8 +30,6 @@ namespace VRInteract{
                 train.transform.position += dis;
                 yield return null;
             }
-  
-            
         }
 
 

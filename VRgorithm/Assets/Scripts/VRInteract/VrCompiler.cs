@@ -108,7 +108,7 @@ namespace VRInteract
             _compOperators.Add("<",new LessOperator());
             _compOperators.Add("!=",new NeqOperator());
 
-            for (var i = 0; i < 10; i++)//상수 만들기
+            for (var i = 0; i < 4; i++)//상수 만들기
             {
                 CreateIntVariable(i.ToString(), i, VariableType.Const);
             }

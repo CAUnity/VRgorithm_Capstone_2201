@@ -36,7 +36,7 @@ namespace VRInteract
         public void AddUserVariable()
         {
             var keys = VrCompiler.Ins.NotConstantVariableKeys;
-            var last = (char)('a'+keys.Count); //create next alphabet
+            var last = (char)('A'+keys.Count); //create next alphabet
             VrCompiler.Ins.CreateIntVariable(last.ToString(), 0,VariableType.User);
         }
         public void RemoveUserVariable()
