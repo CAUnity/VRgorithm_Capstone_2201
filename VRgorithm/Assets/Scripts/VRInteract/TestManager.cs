@@ -30,7 +30,6 @@ namespace VRInteract
             var result = CompareResults(results, ProblemData.outputs);
             if (result)
             {
-                RequestManager.OnStageEnd(true);
                 presenter.PrintSuccess();
                 clearUI.SetActive(true);
             }
@@ -38,12 +37,13 @@ namespace VRInteract
             {
                 presenter.PrintWrongText();
             }
+            RequestManager.OnStageEnd(result);
         }
         private bool CompareResults(List<int> results,ArrayList output)
         {
             for (var i = 0; i < output.Count; i++)
             {
-                if (results[i] != (int)output[i])
+                if (results[i] != Convert.ToInt32(output[i]))
                 {
                     return false;
                 }
