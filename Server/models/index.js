@@ -21,6 +21,11 @@ if (JSON.parse(configs.db.isSqlite)) {
         configs.db.dbPASSWORD, {
             host: configs.db.dbHOSTNAME,
             port: configs.db.dbPORT,
+            timezone: '+09:00',
+            dialectOptions: {
+                dateStrings: true,
+                typeCast: true
+            },
             dialect: 'mysql',
             logging: true,
         },
