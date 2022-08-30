@@ -45,7 +45,7 @@ public struct ProblemRes
 
 public static class RequestManager
 {
-    private const string url = "http://3.39.120.97:3000";
+    private const string url = "http://3.39.186.84:3000";
     
     public static void ReqProbs(Action<string> callback)
     {
