@@ -45,10 +45,11 @@ public struct ProblemRes
 
 public static class RequestManager
 {
+    private const string url = "http://3.39.120.97:3000";
     
     public static void ReqProbs(Action<string> callback)
     {
-        Thread thread = new Thread(()=>Get("http://3.39.120.97:3000/problems", callback));
+        Thread thread = new Thread(()=>Get(url+"/problems", callback));
         thread.Start();
     }
     
@@ -61,7 +62,7 @@ public static class RequestManager
     public static void ReqMakeResult(Result res, Action<string> callback)
     {
         string jsonfile = JsonUtility.ToJson(res);
-        Thread thread = new Thread(()=>Post("http://3.39.120.97:3000/results", jsonfile, callback));
+        Thread thread = new Thread(()=>Post(url+"/results", jsonfile, callback));
         thread.Start();
     }
 
